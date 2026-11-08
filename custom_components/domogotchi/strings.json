@@ -1,0 +1,158 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Domogotchi",
+        "description": "Name your house creature, then optionally link it to your real home.",
+        "data": {
+          "name": "Name",
+          "lights": "Lights (sleep)",
+          "temperature_sensor": "Temperature sensor (comfort)",
+          "comfort_min": "Comfort minimum",
+          "comfort_max": "Comfort maximum",
+          "presence": "Presence (loneliness)",
+          "power_sensor": "Power sensor (stress)",
+          "power_threshold": "Stress threshold",
+          "weather": "Weather (mood)"
+        },
+        "data_description": {
+          "lights": "Sleeps when all these lights are off. Without lights, sleeps from 22:00 to 07:00.",
+          "temperature_sensor": "Feels cold or hot outside the comfort range.",
+          "presence": "Gets lonely when nobody is home (person, tracker, binary sensor or zone).",
+          "power_sensor": "Gets stressed when consumption exceeds the threshold.",
+          "weather": "Sunshine cheers it up, rain gets it down."
+        }
+      }
+    },
+    "error": {
+      "comfort_range": "Maximum must be greater than minimum."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Links with the home",
+        "data": {
+          "lights": "Lights (sleep)",
+          "temperature_sensor": "Temperature sensor (comfort)",
+          "comfort_min": "Comfort minimum",
+          "comfort_max": "Comfort maximum",
+          "presence": "Presence (loneliness)",
+          "power_sensor": "Power sensor (stress)",
+          "power_threshold": "Stress threshold",
+          "weather": "Weather (mood)"
+        },
+        "data_description": {
+          "lights": "Sleeps when all these lights are off. Without lights, sleeps from 22:00 to 07:00.",
+          "temperature_sensor": "Feels cold or hot outside the comfort range.",
+          "presence": "Gets lonely when nobody is home (person, tracker, binary sensor or zone).",
+          "power_sensor": "Gets stressed when consumption exceeds the threshold.",
+          "weather": "Sunshine cheers it up, rain gets it down."
+        }
+      }
+    },
+    "error": {
+      "comfort_range": "Maximum must be greater than minimum."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "satiete": {
+        "name": "Satiety"
+      },
+      "bonheur": {
+        "name": "Happiness"
+      },
+      "energie": {
+        "name": "Energy"
+      },
+      "sante": {
+        "name": "Health"
+      },
+      "proprete": {
+        "name": "Cleanliness"
+      },
+      "age": {
+        "name": "Age"
+      },
+      "stade": {
+        "name": "Stage",
+        "state": {
+          "oeuf": "Egg",
+          "cabane": "Hut",
+          "maisonnette": "Cottage",
+          "maison": "House",
+          "villa": "Villa",
+          "mort": "Ruin"
+        }
+      },
+      "humeur": {
+        "name": "Mood",
+        "state": {
+          "mort": "Dead",
+          "oeuf": "In the egg",
+          "malade": "Sick",
+          "endormi": "Asleep",
+          "affame": "Starving",
+          "fatigue": "Tired",
+          "froid": "Cold",
+          "chaud": "Hot",
+          "sale": "Dirty",
+          "seul": "Lonely",
+          "stresse": "Stressed",
+          "triste": "Sad",
+          "content": "Content",
+          "heureux": "Happy"
+        }
+      },
+      "generation": {
+        "name": "Generation"
+      }
+    },
+    "binary_sensor": {
+      "malade": {
+        "name": "Sick"
+      },
+      "endormi": {
+        "name": "Asleep"
+      },
+      "vivant": {
+        "name": "Alive"
+      },
+      "besoin_attention": {
+        "name": "Needs attention"
+      }
+    },
+    "button": {
+      "nourrir": {
+        "name": "Feed"
+      },
+      "jouer": {
+        "name": "Play"
+      },
+      "nettoyer": {
+        "name": "Clean"
+      },
+      "soigner": {
+        "name": "Heal"
+      }
+    }
+  },
+  "exceptions": {
+    "no_creature": {
+      "message": "No loaded Domogotchi creature matches."
+    }
+  },
+  "services": {
+    "reset": {
+      "name": "New egg",
+      "description": "Replaces the creature with a new egg (next generation).",
+      "fields": {
+        "config_entry_id": {
+          "name": "Creature",
+          "description": "Leave empty for all creatures."
+        }
+      }
+    }
+  }
+}

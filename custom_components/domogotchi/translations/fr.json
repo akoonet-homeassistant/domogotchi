@@ -1,0 +1,158 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Domogotchi",
+        "description": "Donne un nom à ta créature-maison, puis relie-la (facultatif) à ta vraie maison.",
+        "data": {
+          "name": "Nom",
+          "lights": "Lumières (sommeil)",
+          "temperature_sensor": "Capteur de température (confort)",
+          "comfort_min": "Confort minimum",
+          "comfort_max": "Confort maximum",
+          "presence": "Présence (solitude)",
+          "power_sensor": "Capteur de puissance (stress)",
+          "power_threshold": "Seuil de stress",
+          "weather": "Météo (humeur)"
+        },
+        "data_description": {
+          "lights": "Il dort quand toutes ces lumières sont éteintes. Sans lumière choisie, il dort de 22 h à 7 h.",
+          "temperature_sensor": "Il a froid ou chaud hors de la plage de confort.",
+          "presence": "Il s'ennuie quand personne n'est à la maison (personne, traqueur, capteur binaire ou zone).",
+          "power_sensor": "Il stresse quand la consommation dépasse le seuil.",
+          "weather": "Le soleil le réjouit, la pluie le déprime."
+        }
+      }
+    },
+    "error": {
+      "comfort_range": "Le maximum doit être supérieur au minimum."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Liens avec la maison",
+        "data": {
+          "lights": "Lumières (sommeil)",
+          "temperature_sensor": "Capteur de température (confort)",
+          "comfort_min": "Confort minimum",
+          "comfort_max": "Confort maximum",
+          "presence": "Présence (solitude)",
+          "power_sensor": "Capteur de puissance (stress)",
+          "power_threshold": "Seuil de stress",
+          "weather": "Météo (humeur)"
+        },
+        "data_description": {
+          "lights": "Il dort quand toutes ces lumières sont éteintes. Sans lumière choisie, il dort de 22 h à 7 h.",
+          "temperature_sensor": "Il a froid ou chaud hors de la plage de confort.",
+          "presence": "Il s'ennuie quand personne n'est à la maison (personne, traqueur, capteur binaire ou zone).",
+          "power_sensor": "Il stresse quand la consommation dépasse le seuil.",
+          "weather": "Le soleil le réjouit, la pluie le déprime."
+        }
+      }
+    },
+    "error": {
+      "comfort_range": "Le maximum doit être supérieur au minimum."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "satiete": {
+        "name": "Satiété"
+      },
+      "bonheur": {
+        "name": "Bonheur"
+      },
+      "energie": {
+        "name": "Énergie"
+      },
+      "sante": {
+        "name": "Santé"
+      },
+      "proprete": {
+        "name": "Propreté"
+      },
+      "age": {
+        "name": "Âge"
+      },
+      "stade": {
+        "name": "Stade",
+        "state": {
+          "oeuf": "Œuf",
+          "cabane": "Cabane",
+          "maisonnette": "Maisonnette",
+          "maison": "Maison",
+          "villa": "Villa",
+          "mort": "Ruine"
+        }
+      },
+      "humeur": {
+        "name": "Humeur",
+        "state": {
+          "mort": "Mort",
+          "oeuf": "Dans l'œuf",
+          "malade": "Malade",
+          "endormi": "Endormi",
+          "affame": "Affamé",
+          "fatigue": "Fatigué",
+          "froid": "A froid",
+          "chaud": "A chaud",
+          "sale": "Sale",
+          "seul": "Seul",
+          "stresse": "Stressé",
+          "triste": "Triste",
+          "content": "Content",
+          "heureux": "Heureux"
+        }
+      },
+      "generation": {
+        "name": "Génération"
+      }
+    },
+    "binary_sensor": {
+      "malade": {
+        "name": "Malade"
+      },
+      "endormi": {
+        "name": "Endormi"
+      },
+      "vivant": {
+        "name": "Vivant"
+      },
+      "besoin_attention": {
+        "name": "Besoin d'attention"
+      }
+    },
+    "button": {
+      "nourrir": {
+        "name": "Nourrir"
+      },
+      "jouer": {
+        "name": "Jouer"
+      },
+      "nettoyer": {
+        "name": "Nettoyer"
+      },
+      "soigner": {
+        "name": "Soigner"
+      }
+    }
+  },
+  "exceptions": {
+    "no_creature": {
+      "message": "Aucune créature Domogotchi chargée ne correspond."
+    }
+  },
+  "services": {
+    "reset": {
+      "name": "Nouvel œuf",
+      "description": "Remplace la créature par un nouvel œuf (génération suivante).",
+      "fields": {
+        "config_entry_id": {
+          "name": "Créature",
+          "description": "Laisser vide pour toutes les créatures."
+        }
+      }
+    }
+  }
+}

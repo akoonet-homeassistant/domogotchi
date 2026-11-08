@@ -1,0 +1,13 @@
+{
+  "domain": "domogotchi",
+  "name": "Domogotchi",
+  "codeowners": ["@JeromeRoseau"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http"],
+  "documentation": "https://github.com/akoonet-homeassistant/domogotchi",
+  "integration_type": "device",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/akoonet-homeassistant/domogotchi/issues",
+  "requirements": [],
+  "version": "2026.11.1"
+}

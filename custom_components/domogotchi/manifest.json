@@ -1,9 +1,17 @@
 {
   "domain": "domogotchi",
   "name": "Domogotchi",
-  "codeowners": ["@JeromeRoseau"],
+  "categories": [
+    "media_entertainment.gaming"
+  ],
+  "codeowners": [
+    "@JeromeRoseau"
+  ],
   "config_flow": true,
-  "dependencies": ["frontend", "http"],
+  "dependencies": [
+    "frontend",
+    "http"
+  ],
   "documentation": "https://github.com/akoonet-homeassistant/domogotchi",
   "integration_type": "device",
   "iot_class": "calculated",

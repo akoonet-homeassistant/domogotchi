@@ -1,4 +1,4 @@
-/* Domogotchi card — carte Lovelace de la créature-maison. */
+/* Domogotchi card — carte Lovelace de la créature-maison (FR / EN). */
 const DOMOGOTCHI_VERSION = "2026.11.1";
 
 const W = 32;
@@ -15,48 +15,66 @@ const STAGE_SIZE = {
   villa: [24, 10],
 };
 
-const MESSAGES = {
-  nourri: "Miam !",
-  trop_mange: "Trop mangé…",
-  joue: "Youpi !",
-  nettoye: "Tout propre",
-  soigne: "Ça va mieux",
-  refus_dort: "Chut, il dort",
-  refus_oeuf: "Patience…",
-  refus_mort: "…",
-  refus_fatigue: "Trop fatigué",
-  refus_pas_malade: "Pas malade",
-  eclosion: "Éclosion !",
-  nouvel_oeuf: "Un nouvel œuf",
-  endormi: "Bonne nuit",
-  reveil: "Bonjour !",
-  malade: "Il est malade",
-  mort: "R.I.P.",
-};
-
-const MOOD_LABELS = {
-  mort: "Mort",
-  oeuf: "Dans l'œuf",
-  malade: "Malade",
-  endormi: "Endormi",
-  affame: "Affamé",
-  fatigue: "Fatigué",
-  froid: "A froid",
-  chaud: "A chaud",
-  sale: "Sale",
-  seul: "Seul",
-  stresse: "Stressé",
-  triste: "Triste",
-  content: "Content",
-  heureux: "Heureux",
-};
-
 const ACTIONS = [
-  { key: "nourrir", letter: "A", label: "Nourrir" },
-  { key: "jouer", letter: "B", label: "Jouer" },
-  { key: "nettoyer", letter: "C", label: "Nettoyer" },
-  { key: "soigner", letter: "D", label: "Soigner" },
+  { key: "nourrir", letter: "A" },
+  { key: "jouer", letter: "B" },
+  { key: "nettoyer", letter: "C" },
+  { key: "soigner", letter: "D" },
 ];
+
+const I18N = {
+  fr: {
+    messages: {
+      nourri: "Miam !", trop_mange: "Trop mangé…", joue: "Youpi !", nettoye: "Tout propre",
+      soigne: "Ça va mieux", refus_dort: "Chut, il dort", refus_oeuf: "Patience…", refus_mort: "…",
+      refus_fatigue: "Trop fatigué", refus_pas_malade: "Pas malade", eclosion: "Éclosion !",
+      nouvel_oeuf: "Un nouvel œuf", endormi: "Bonne nuit", reveil: "Bonjour !", malade: "Il est malade", mort: "R.I.P.",
+    },
+    moods: {
+      mort: "Mort", oeuf: "Dans l'œuf", malade: "Malade", endormi: "Endormi", affame: "Affamé", fatigue: "Fatigué",
+      froid: "A froid", chaud: "A chaud", sale: "Sale", seul: "Seul", stresse: "Stressé", triste: "Triste",
+      content: "Content", heureux: "Heureux",
+    },
+    stages: { oeuf: "œuf", cabane: "cabane", maisonnette: "maisonnette", maison: "maison", villa: "villa", mort: "ruine" },
+    actions: { nourrir: "Nourrir", jouer: "Jouer", nettoyer: "Nettoyer", soigner: "Soigner" },
+    gauges: { satiete: "Satiété", bonheur: "Bonheur", energie: "Énergie", sante: "Santé", proprete: "Propreté" },
+    ctx: {
+      mood: "Humeur :", stage: "stade :", generation: "génération", cold: "il a froid", hot: "il a chaud",
+      alone: "personne à la maison", stressed: "consommation élevée", good: "beau temps", bad: "mauvais temps",
+    },
+    egg: "œuf", hours: "h", days: "j", rip: "R.I.P.",
+    reset: "Nouvel œuf", resetConfirm: "Remplacer la créature par un nouvel œuf ?",
+    notFound: "Entité introuvable :",
+  },
+  en: {
+    messages: {
+      nourri: "Yum!", trop_mange: "Too full…", joue: "Yay!", nettoye: "All clean",
+      soigne: "Feeling better", refus_dort: "Shh, sleeping", refus_oeuf: "Patience…", refus_mort: "…",
+      refus_fatigue: "Too tired", refus_pas_malade: "Not sick", eclosion: "Hatched!",
+      nouvel_oeuf: "A new egg", endormi: "Good night", reveil: "Good morning!", malade: "It is sick", mort: "R.I.P.",
+    },
+    moods: {
+      mort: "Dead", oeuf: "In the egg", malade: "Sick", endormi: "Asleep", affame: "Starving", fatigue: "Tired",
+      froid: "Cold", chaud: "Hot", sale: "Dirty", seul: "Lonely", stresse: "Stressed", triste: "Sad",
+      content: "Content", heureux: "Happy",
+    },
+    stages: { oeuf: "egg", cabane: "hut", maisonnette: "cottage", maison: "house", villa: "villa", mort: "ruin" },
+    actions: { nourrir: "Feed", jouer: "Play", nettoyer: "Clean", soigner: "Heal" },
+    gauges: { satiete: "Satiety", bonheur: "Happiness", energie: "Energy", sante: "Health", proprete: "Cleanliness" },
+    ctx: {
+      mood: "Mood:", stage: "stage:", generation: "generation", cold: "feeling cold", hot: "feeling hot",
+      alone: "nobody home", stressed: "high consumption", good: "nice weather", bad: "bad weather",
+    },
+    egg: "egg", hours: "h", days: "d", rip: "R.I.P.",
+    reset: "New egg", resetConfirm: "Replace the creature with a new egg?",
+    notFound: "Entity not found:",
+  },
+};
+
+function pickLang(hass) {
+  const lang = (hass && ((hass.locale && hass.locale.language) || hass.language)) || navigator.language || "en";
+  return String(lang).toLowerCase().startsWith("fr") ? "fr" : "en";
+}
 
 /* ---------- dessin pixel ---------- */
 class Grid {
@@ -238,7 +256,7 @@ class DomogotchiCard extends HTMLElement {
   }
 
   setConfig(config) {
-    if (!config || !config.entity) throw new Error("Indique l'entité Humeur de ta créature (entity).");
+    if (!config || !config.entity) throw new Error("entity: sensor Humeur / Mood");
     this._config = { show_stats: true, ...config };
     this._frame = 0;
     this._lastEventSeen = null;
@@ -248,6 +266,8 @@ class DomogotchiCard extends HTMLElement {
 
   set hass(hass) {
     this._hass = hass;
+    const lang = pickLang(hass);
+    if (lang !== this._lang) { this._lang = lang; this._btnMode = null; }
     if (!this.shadowRoot) {
       this.attachShadow({ mode: "open" });
       this._build();
@@ -342,6 +362,10 @@ class DomogotchiCard extends HTMLElement {
     this._btnMode = null;
   }
 
+  get _t() {
+    return I18N[this._lang || pickLang(this._hass)];
+  }
+
   get _attrs() {
     const st = this._hass && this._config && this._hass.states[this._config.entity];
     return st ? { ...st.attributes, humeur: st.state } : null;
@@ -351,7 +375,7 @@ class DomogotchiCard extends HTMLElement {
     if (!this._els) return;
     const a = this._attrs;
     if (!a || !a.boutons) {
-      this._els.stats.innerHTML = `<div class="err">Entité introuvable : ${this._config.entity}</div>`;
+      this._els.stats.innerHTML = `<div class="err">${this._t.notFound} ${this._config.entity}</div>`;
       return;
     }
     // icônes de statut
@@ -384,9 +408,9 @@ class DomogotchiCard extends HTMLElement {
     if (!a.vivant) {
       const b = document.createElement("button");
       b.className = "reset";
-      b.textContent = "Nouvel œuf";
+      b.textContent = this._t.reset;
       b.addEventListener("click", () => {
-        if (confirm("Remplacer la créature par un nouvel œuf ?")) {
+        if (confirm(this._t.resetConfirm)) {
           this._hass.callService("domogotchi", "reset", { config_entry_id: this._attrs.config_entry_id });
         }
       });
@@ -398,14 +422,15 @@ class DomogotchiCard extends HTMLElement {
       wrap.className = "btn";
       const b = document.createElement("button");
       b.textContent = act.letter;
-      b.title = act.label;
-      b.setAttribute("aria-label", act.label);
+      const label = this._t.actions[act.key];
+      b.title = label;
+      b.setAttribute("aria-label", label);
       b.addEventListener("click", () => {
         const id = this._attrs && this._attrs.boutons && this._attrs.boutons[act.key];
         if (id) this._hass.callService("button", "press", { entity_id: id });
       });
       const l = document.createElement("span");
-      l.textContent = act.label;
+      l.textContent = label;
       wrap.append(b, l);
       box.appendChild(wrap);
     }
@@ -413,23 +438,18 @@ class DomogotchiCard extends HTMLElement {
 
   _renderStats(a) {
     if (!this._config.show_stats) { this._els.stats.innerHTML = ""; return; }
-    const gauges = [
-      ["Satiété", a.satiete],
-      ["Bonheur", a.bonheur],
-      ["Énergie", a.energie],
-      ["Santé", a.sante],
-      ["Propreté", a.proprete],
-    ];
+    const t = this._t;
+    const gauges = ["satiete", "bonheur", "energie", "sante", "proprete"].map((k) => [t.gauges[k], a[k]]);
     const ctx = [];
-    ctx.push(`Humeur : ${MOOD_LABELS[a.humeur] || a.humeur}`);
-    ctx.push(`stade : ${a.stade}`);
-    ctx.push(`génération ${a.generation}`);
-    if (a.froid) ctx.push("il a froid");
-    if (a.chaud) ctx.push("il a chaud");
-    if (a.seul) ctx.push("personne à la maison");
-    if (a.stresse) ctx.push("consommation élevée");
-    if (a.beau_temps) ctx.push("beau temps");
-    if (a.mauvais_temps) ctx.push("mauvais temps");
+    ctx.push(`${t.ctx.mood} ${t.moods[a.humeur] || a.humeur}`);
+    ctx.push(`${t.ctx.stage} ${t.stages[a.stade] || a.stade}`);
+    ctx.push(`${t.ctx.generation} ${a.generation}`);
+    if (a.froid) ctx.push(t.ctx.cold);
+    if (a.chaud) ctx.push(t.ctx.hot);
+    if (a.seul) ctx.push(t.ctx.alone);
+    if (a.stresse) ctx.push(t.ctx.stressed);
+    if (a.beau_temps) ctx.push(t.ctx.good);
+    if (a.mauvais_temps) ctx.push(t.ctx.bad);
     this._els.stats.innerHTML =
       gauges
         .map(
@@ -443,13 +463,14 @@ class DomogotchiCard extends HTMLElement {
   _renderMessage() {
     const a = this._attrs;
     if (!a || !this._els) return;
+    const t = this._t;
     let text;
-    if (Date.now() < this._msgUntil) text = MESSAGES[a.dernier_evenement] || "";
-    else if (!a.vivant) text = `R.I.P. ${a.nom}`;
-    else if (a.stade === "oeuf") text = `${a.nom} · œuf`;
+    if (Date.now() < this._msgUntil) text = t.messages[a.dernier_evenement] || "";
+    else if (!a.vivant) text = `${t.rip} ${a.nom}`;
+    else if (a.stade === "oeuf") text = `${a.nom} · ${t.egg}`;
     else {
       const h = a.age_heures || 0;
-      text = `${a.nom} · ${h < 24 ? Math.floor(h) + " h" : Math.floor(h / 24) + " j"}`;
+      text = `${a.nom} · ${h < 24 ? Math.floor(h) + " " + t.hours : Math.floor(h / 24) + " " + t.days}`;
     }
     if (this._els.msg.textContent !== text) this._els.msg.textContent = text;
   }
@@ -479,7 +500,7 @@ if (!customElements.get("domogotchi-card")) {
   window.customCards.push({
     type: "domogotchi-card",
     name: "Domogotchi",
-    description: "Ta créature-maison sur écran LCD rétro.",
+    description: pickLang(null) === "fr" ? "Ta créature-maison sur écran LCD rétro." : "Your house creature on a retro LCD screen.",
     preview: true,
   });
   console.info(`%c DOMOGOTCHI %c ${DOMOGOTCHI_VERSION} `, "background:#173404;color:#C0DD97", "background:#C0DD97;color:#173404");

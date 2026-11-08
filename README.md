@@ -12,7 +12,7 @@ Une créature-maison façon Tamagotchi qui vit dans Home Assistant. Elle a faim,
 - Cinq jauges : satiété, bonheur, énergie, santé, propreté.
 - Quatre actions : nourrir, jouer, nettoyer, soigner (avec refus quand elle dort, qu'elle est trop fatiguée ou déjà rassasiée).
 - Liens facultatifs avec la maison réelle, réglables à tout moment dans les options.
-- Carte Lovelace `domogotchi-card` intégrée : écran LCD rétro, maison en pixel art dont les fenêtres sont les yeux, cheminée qui fume, neige sur le toit quand il fait froid, volets croisés quand elle est malade, fenêtres éteintes quand elle dort.
+- Carte Lovelace `domogotchi-card` intégrée, en français ou en anglais selon la langue de Home Assistant : écran LCD rétro, maison en pixel art dont les fenêtres sont les yeux, cheminée qui fume, neige sur le toit quand il fait froid, volets croisés quand elle est malade, fenêtres éteintes quand elle dort.
 - État conservé entre les redémarrages (rattrapage plafonné à 12 h pour qu'un arrêt de Home Assistant ne la tue pas).
 
 ![Les différents états](docs/screenshots/etats.png)
@@ -116,7 +116,7 @@ Les vitesses sont des choix de gameplay, pas des mesures : environ trois repas, 
 
 A Tamagotchi-style house creature living in Home Assistant. It gets hungry, bored, grows up… and reacts to your real home: it falls asleep when the lights go off, feels cold when the temperature drops, gets lonely when nobody is home, stressed when power consumption soars, and sulks in the rain.
 
-![Domogotchi card](docs/screenshots/carte.png)
+![Domogotchi card](docs/screenshots/card-en.png)
 
 ## Features
 
@@ -124,8 +124,10 @@ A Tamagotchi-style house creature living in Home Assistant. It gets hungry, bore
 - Five gauges: satiety, happiness, energy, health, cleanliness.
 - Four actions: feed, play, clean, heal (refused while asleep, exhausted or already full).
 - Optional links with the real home, editable anytime in the options.
-- Built-in `domogotchi-card` Lovelace card: retro LCD screen, pixel-art house whose windows are its eyes, smoking chimney, snow on the roof when cold, crossed shutters when sick, dark windows when asleep.
+- Built-in `domogotchi-card` Lovelace card, in English or French following the Home Assistant language: retro LCD screen, pixel-art house whose windows are its eyes, smoking chimney, snow on the roof when cold, crossed shutters when sick, dark windows when asleep.
 - State kept across restarts (catch-up capped at 12 h so a Home Assistant outage does not kill it).
+
+![States](docs/screenshots/states-en.png)
 
 ## Installation
 

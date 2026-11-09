@@ -58,7 +58,7 @@ Tous les liens sont facultatifs. On peut créer plusieurs créatures.
 
 ## La carte
 
-La ressource est chargée automatiquement par l'intégration, rien à déclarer. Dans un tableau de bord : **Ajouter une carte → Domogotchi**, ou en YAML :
+L'intégration ajoute elle-même la carte aux ressources Lovelace (*Paramètres → Tableaux de bord → ⋮ → Ressources*) et met son adresse à jour à chaque version : rien à déclarer. Après l'installation ou une mise à jour, rechargez complètement la page (Ctrl+F5) ou videz le cache de l'application mobile. Dans un tableau de bord : **Ajouter une carte → Domogotchi**, ou en YAML :
 
 ```yaml
 type: custom:domogotchi-card
@@ -178,7 +178,7 @@ All links are optional. Several creatures can be created.
 
 ## The card
 
-The resource is registered automatically by the integration.
+The integration adds the card to the Lovelace resources itself (*Settings → Dashboards → ⋮ → Resources*) and updates its URL with each version: nothing to declare. After installing or updating, fully reload the page (Ctrl+F5) or clear the mobile app's frontend cache.
 
 ```yaml
 type: custom:domogotchi-card

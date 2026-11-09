@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import voluptuous as vol
 
 from homeassistant.components.frontend import add_extra_js_url
 from homeassistant.components.http import StaticPathConfig
+from homeassistant.components.lovelace.const import LOVELACE_DATA
 from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant, ServiceCall
@@ -18,12 +20,45 @@ from homeassistant.helpers.typing import ConfigType
 from .const import ATTR_CONFIG_ENTRY_ID, CARD_URL, DOMAIN, SERVICE_RESET, VERSION
 from .coordinator import DomogotchiCoordinator
 
+_LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.SENSOR, Platform.BINARY_SENSOR, Platform.BUTTON]
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 type DomogotchiConfigEntry = ConfigEntry[DomogotchiCoordinator]
 
 RESET_SCHEMA = vol.Schema({vol.Optional(ATTR_CONFIG_ENTRY_ID): cv.string})
+
+
+async def _async_register_card(hass: HomeAssistant) -> None:
+    """Déclare la carte comme ressource Lovelace (mode stockage), sinon en module global.
+
+    La ressource est créée une fois, puis son URL est mise à jour à chaque
+    version pour forcer le navigateur à recharger la carte.
+    """
+    url = f"{CARD_URL}?v={VERSION}"
+    lovelace = hass.data.get(LOVELACE_DATA)
+    resources = getattr(lovelace, "resources", None)
+    if lovelace is None or getattr(lovelace, "resource_mode", None) != "storage" or resources is None:
+        # Tableaux de bord en mode YAML : pas de ressource modifiable par l'API.
+        add_extra_js_url(hass, url)
+        return
+    try:
+        if not getattr(resources, "loaded", True):
+            await resources.async_load()
+            resources.loaded = True
+        existing = [r for r in resources.async_items() if str(r.get("url", "")).startswith(CARD_URL)]
+        if not existing:
+            await resources.async_create_item({"res_type": "module", "url": url})
+            _LOGGER.info("Ressource Lovelace Domogotchi ajoutée : %s", url)
+            return
+        first, *duplicates = existing
+        if first.get("url") != url:
+            await resources.async_update_item(first["id"], {"res_type": "module", "url": url})
+        for dup in duplicates:
+            await resources.async_delete_item(dup["id"])
+    except Exception:  # noqa: BLE001 - la carte ne doit jamais bloquer l'intégration
+        _LOGGER.exception("Ressource Lovelace impossible à créer, chargement global de la carte")
+        add_extra_js_url(hass, url)
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
@@ -33,7 +68,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         await hass.http.async_register_static_paths(
             [StaticPathConfig(CARD_URL, str(card), False)]
         )
-        add_extra_js_url(hass, f"{CARD_URL}?v={VERSION}")
+    await _async_register_card(hass)
 
     async def _reset(call: ServiceCall) -> None:
         wanted = call.data.get(ATTR_CONFIG_ENTRY_ID)

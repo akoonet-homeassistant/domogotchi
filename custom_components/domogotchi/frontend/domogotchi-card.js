@@ -1,5 +1,5 @@
 /* Domogotchi card — carte Lovelace de la créature-maison (FR / EN). */
-const DOMOGOTCHI_VERSION = "2026.11.3";
+const DOMOGOTCHI_VERSION = "2026.11.4";
 
 const W = 32;
 const H = 24;

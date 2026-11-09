@@ -1,5 +1,5 @@
 /* Domogotchi card — carte Lovelace de la créature-maison (FR / EN). */
-const DOMOGOTCHI_VERSION = "2026.11.2";
+const DOMOGOTCHI_VERSION = "2026.11.3";
 
 const W = 32;
 const H = 24;
@@ -246,6 +246,14 @@ function drawHouse(g, a, frame) {
   g.line(0, 22, W - 1, 22);
 }
 
+/* ---------- DOM ---------- */
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined && text !== null) node.textContent = String(text);
+  return node;
+}
+
 /* ---------- carte ---------- */
 class DomogotchiCard extends HTMLElement {
   static getStubConfig(hass) {
@@ -375,7 +383,7 @@ class DomogotchiCard extends HTMLElement {
     if (!this._els) return;
     const a = this._attrs;
     if (!a || !a.boutons) {
-      this._els.stats.innerHTML = `<div class="err">${this._t.notFound} ${this._config.entity}</div>`;
+      this._els.stats.replaceChildren(el("div", "err", `${this._t.notFound} ${this._config.entity}`));
       return;
     }
     // icônes de statut
@@ -404,7 +412,7 @@ class DomogotchiCard extends HTMLElement {
     if (mode === this._btnMode) return;
     this._btnMode = mode;
     const box = this._els.btns;
-    box.innerHTML = "";
+    box.replaceChildren();
     if (!a.vivant) {
       const b = document.createElement("button");
       b.className = "reset";
@@ -437,9 +445,8 @@ class DomogotchiCard extends HTMLElement {
   }
 
   _renderStats(a) {
-    if (!this._config.show_stats) { this._els.stats.innerHTML = ""; return; }
+    if (!this._config.show_stats) { this._els.stats.replaceChildren(); return; }
     const t = this._t;
-    const gauges = ["satiete", "bonheur", "energie", "sante", "proprete"].map((k) => [t.gauges[k], a[k]]);
     const ctx = [];
     ctx.push(`${t.ctx.mood} ${t.moods[a.humeur] || a.humeur}`);
     ctx.push(`${t.ctx.stage} ${t.stages[a.stade] || a.stade}`);
@@ -450,14 +457,21 @@ class DomogotchiCard extends HTMLElement {
     if (a.stresse) ctx.push(t.ctx.stressed);
     if (a.beau_temps) ctx.push(t.ctx.good);
     if (a.mauvais_temps) ctx.push(t.ctx.bad);
-    this._els.stats.innerHTML =
-      gauges
-        .map(
-          ([n, v]) =>
-            `<div class="row"><span>${n}</span><span>${Math.round(v)} %</span></div>` +
-            `<div class="bar"><div class="${v < 25 ? "low" : ""}" style="width:${Math.max(0, Math.min(100, v))}%"></div></div>`
-        )
-        .join("") + `<div class="ctx">${ctx.join(" · ")}</div>`;
+    // Construit avec le DOM : aucune valeur d'état, d'attribut ou de config ne passe par innerHTML.
+    const nodes = [];
+    for (const key of ["satiete", "bonheur", "energie", "sante", "proprete"]) {
+      const raw = Number(a[key]);
+      const v = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 0;
+      const row = el("div", "row");
+      row.append(el("span", null, t.gauges[key]), el("span", null, `${Math.round(v)} %`));
+      const bar = el("div", "bar");
+      const fill = el("div", v < 25 ? "low" : null);
+      fill.style.width = `${v}%`;
+      bar.appendChild(fill);
+      nodes.push(row, bar);
+    }
+    nodes.push(el("div", "ctx", ctx.join(" · ")));
+    this._els.stats.replaceChildren(...nodes);
   }
 
   _renderMessage() {

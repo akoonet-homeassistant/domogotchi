@@ -1,5 +1,5 @@
 /* Domogotchi card — carte Lovelace de la créature-maison (FR / EN). */
-const DOMOGOTCHI_VERSION = "2026.11.5";
+const DOMOGOTCHI_VERSION = "2026.11.6";
 
 const W = 32;
 const H = 24;
@@ -42,7 +42,7 @@ const I18N = {
       mood: "Humeur :", stage: "stade :", generation: "génération", cold: "il a froid", hot: "il a chaud",
       alone: "personne à la maison", stressed: "consommation élevée", good: "beau temps", bad: "mauvais temps",
     },
-    egg: "œuf", hours: "h", days: "j", rip: "R.I.P.",
+    egg: "œuf", hatchIn: (m) => `Éclosion dans ${m} min`, hatchSoon: "Éclosion imminente", hours: "h", days: "j", rip: "R.I.P.",
     reset: "Nouvel œuf", resetConfirm: "Remplacer la créature par un nouvel œuf ?",
     notFound: "Entité introuvable :",
   },
@@ -65,7 +65,7 @@ const I18N = {
       mood: "Mood:", stage: "stage:", generation: "generation", cold: "feeling cold", hot: "feeling hot",
       alone: "nobody home", stressed: "high consumption", good: "nice weather", bad: "bad weather",
     },
-    egg: "egg", hours: "h", days: "d", rip: "R.I.P.",
+    egg: "egg", hatchIn: (m) => `Hatching in ${m} min`, hatchSoon: "Hatching soon", hours: "h", days: "d", rip: "R.I.P.",
     reset: "New egg", resetConfirm: "Replace the creature with a new egg?",
     notFound: "Entity not found:",
   },
@@ -479,9 +479,14 @@ class DomogotchiCard extends HTMLElement {
     if (!a || !this._els) return;
     const t = this._t;
     let text;
-    if (Date.now() < this._msgUntil) text = t.messages[a.dernier_evenement] || "";
+    const eggRefusal = a.dernier_evenement === "refus_oeuf" && a.stade === "oeuf";
+    if (Date.now() < this._msgUntil && !eggRefusal) text = t.messages[a.dernier_evenement] || "";
     else if (!a.vivant) text = `${t.rip} ${a.nom}`;
-    else if (a.stade === "oeuf") text = `${a.nom} · ${t.egg}`;
+    else if (a.stade === "oeuf") {
+      const at = Date.parse(a.eclosion_le || "");
+      const left = Number.isFinite(at) ? Math.ceil((at - Date.now()) / 60000) : NaN;
+      text = Number.isFinite(left) ? (left >= 1 ? t.hatchIn(left) : t.hatchSoon) : `${a.nom} · ${t.egg}`;
+    }
     else {
       const h = a.age_heures || 0;
       text = `${a.nom} · ${h < 24 ? Math.floor(h) + " " + t.hours : Math.floor(h / 24) + " " + t.days}`;

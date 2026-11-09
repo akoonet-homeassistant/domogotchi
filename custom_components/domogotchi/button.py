@@ -42,5 +42,10 @@ class DomogotchiButton(DomogotchiEntity, ButtonEntity):
         super().__init__(coordinator, description.key)
         self.entity_description = description
 
+    async def async_added_to_hass(self) -> None:
+        """Republie les attributs du capteur Humeur, qui listent les boutons de la carte."""
+        await super().async_added_to_hass()
+        self.coordinator.async_update_listeners()
+
     async def async_press(self) -> None:
         await self.coordinator.async_do(self.entity_description.action)

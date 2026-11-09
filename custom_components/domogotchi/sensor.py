@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import Any
 
 from homeassistant.components.sensor import (
@@ -14,6 +15,7 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.const import PERCENTAGE, UnitOfTime
 from homeassistant.core import HomeAssistant
+from homeassistant.util import dt as dt_util
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
@@ -115,8 +117,12 @@ class DomogotchiSensor(DomogotchiEntity, SensorEntity):
             key: registry.async_get_entity_id("button", DOMAIN, f"{entry_id}_{key}")
             for key in BUTTON_KEYS
         }
+        hatch_at = None
+        if pet.alive and pet.is_egg:
+            hatch_at = (dt_util.now() + timedelta(minutes=pet.minutes_to_hatch)).isoformat()
         return {
             "nom": self.coordinator.config_entry.title,
+            "eclosion_le": hatch_at,
             "config_entry_id": entry_id,
             "stade": pet.stage,
             "age_heures": round(pet.age_hours, 1),

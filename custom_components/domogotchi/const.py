@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 DOMAIN = "domogotchi"
-VERSION = "2026.11.5"
+VERSION = "2026.11.6"
 
 CONF_NAME = "name"
 CONF_LIGHTS = "lights"

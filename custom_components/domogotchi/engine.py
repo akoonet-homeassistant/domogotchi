@@ -35,7 +35,7 @@ MAX_CATCH_UP_MINUTES = 12 * 60  # rattrapage plafonné après un arrêt de HA
 # Stades : (âge minimal en heures, nom)
 STAGES: list[tuple[float, str]] = [
     (0.0, "oeuf"),
-    (0.5, "cabane"),
+    (0.25, "cabane"),  # éclosion au bout de 15 minutes
     (24.0, "maisonnette"),
     (72.0, "maison"),
     (168.0, "villa"),
@@ -134,6 +134,11 @@ class PetState:
             if self.age_hours >= min_hours:
                 current = name
         return current
+
+    @property
+    def minutes_to_hatch(self) -> float:
+        """Minutes avant l'éclosion (0 une fois éclos)."""
+        return max(0.0, STAGES[1][0] * 60 - self.age_minutes)
 
     @property
     def is_egg(self) -> bool:

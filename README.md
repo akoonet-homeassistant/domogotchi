@@ -1,5 +1,9 @@
 # Domogotchi
 
+[![release](https://img.shields.io/github/v/release/akoonet-homeassistant/domogotchi?label=release)](https://github.com/akoonet-homeassistant/domogotchi/releases/latest)
+[![license](https://img.shields.io/github/license/akoonet-homeassistant/domogotchi?label=license)](LICENSE)
+[![HACS](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://hacs.xyz)
+
 🇫🇷 Français · [🇬🇧 English](#english)
 
 Une créature-maison façon Tamagotchi qui vit dans Home Assistant. Elle a faim, elle s'ennuie, elle grandit… et elle réagit à ta vraie maison : elle s'endort quand les lumières s'éteignent, a froid quand la température baisse, se sent seule quand personne n'est là, stresse quand la consommation s'envole et boude sous la pluie.
@@ -19,11 +23,19 @@ Une créature-maison façon Tamagotchi qui vit dans Home Assistant. Elle a faim,
 
 ## Installation
 
-### HACS (dépôt personnalisé)
+### HACS (recommandé)
 
-1. HACS → menu ⋮ → **Dépôts personnalisés**.
-2. Ajoute `https://github.com/akoonet-homeassistant/domogotchi`, catégorie **Intégration**.
-3. Installe **Domogotchi**, puis redémarre Home Assistant.
+Domogotchi fait partie des dépôts **HACS par défaut**.
+
+[![Ouvrir dans HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=akoonet-homeassistant&repository=domogotchi&category=integration)
+
+1. Ouvre **HACS** dans Home Assistant et recherche **Domogotchi**.
+2. Clique sur **Télécharger**, puis redémarre Home Assistant.
+3. **Paramètres → Appareils et services → Ajouter une intégration → Domogotchi**.
+
+### HACS (dépôt personnalisé, en secours)
+
+Si Domogotchi n'apparaît pas dans la recherche : HACS → menu ⋮ → **Dépôts personnalisés**, ajoute `https://github.com/akoonet-homeassistant/domogotchi` en catégorie **Intégration**, puis reprends à l'étape 2.
 
 ### Manuelle
 
@@ -131,9 +143,23 @@ A Tamagotchi-style house creature living in Home Assistant. It gets hungry, bore
 
 ## Installation
 
-**HACS:** HACS → ⋮ → **Custom repositories** → add `https://github.com/akoonet-homeassistant/domogotchi` as **Integration**, install **Domogotchi**, restart.
+### HACS (recommended)
 
-**Manual:** copy `custom_components/domogotchi` into `config/custom_components/` and restart.
+Domogotchi is part of the **HACS default** repositories.
+
+[![Open in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=akoonet-homeassistant&repository=domogotchi&category=integration)
+
+1. Open **HACS** in Home Assistant and search for **Domogotchi**.
+2. Click **Download**, then restart Home Assistant.
+3. **Settings → Devices & services → Add integration → Domogotchi**.
+
+### HACS (custom repository, fallback)
+
+If Domogotchi does not show up in the search: HACS → ⋮ → **Custom repositories**, add `https://github.com/akoonet-homeassistant/domogotchi` as **Integration**, then continue from step 2.
+
+### Manual
+
+Copy `custom_components/domogotchi` into `config/custom_components/` and restart.
 
 ## Configuration
 

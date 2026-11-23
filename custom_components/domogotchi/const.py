@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 DOMAIN = "domogotchi"
-VERSION = "2026.11.7"
+VERSION = "2026.11.8"
 
 CONF_NAME = "name"
 CONF_LIGHTS = "lights"
@@ -27,4 +27,4 @@ CARD_URL = "/domogotchi_static/domogotchi-card.js"
 SERVICE_RESET = "reset"
 ATTR_CONFIG_ENTRY_ID = "config_entry_id"
 
-BUTTON_KEYS = ("nourrir", "jouer", "nettoyer", "soigner")
+BUTTON_KEYS = ("nourrir", "jouer", "nettoyer", "soigner", "sieste")

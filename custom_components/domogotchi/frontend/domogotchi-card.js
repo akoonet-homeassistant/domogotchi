@@ -1,5 +1,5 @@
 /* Domogotchi card — carte Lovelace de la créature-maison (FR / EN). */
-const DOMOGOTCHI_VERSION = "2026.11.7";
+const DOMOGOTCHI_VERSION = "2026.11.8";
 
 const W = 32;
 const H = 24;
@@ -20,6 +20,7 @@ const ACTIONS = [
   { key: "jouer", letter: "B" },
   { key: "nettoyer", letter: "C" },
   { key: "soigner", letter: "D" },
+  { key: "sieste", letter: "E" },
 ];
 
 const I18N = {
@@ -27,7 +28,7 @@ const I18N = {
     messages: {
       nourri: "Miam !", trop_mange: "Trop mangé…", joue: "Youpi !", nettoye: "Tout propre", nettoye_auto: "Le robot est passé !",
       soigne: "Ça va mieux", refus_dort: "Chut, il dort", refus_oeuf: "Patience…", refus_mort: "…",
-      refus_fatigue: "Trop fatigué", refus_pas_malade: "Pas malade", eclosion: "Éclosion !",
+      refus_fatigue: "Trop fatigué", refus_pas_malade: "Pas malade", sieste: "Petite sieste…", refus_pas_fatigue: "Pas fatigué", eclosion: "Éclosion !",
       nouvel_oeuf: "Un nouvel œuf", endormi: "Bonne nuit", reveil: "Bonjour !", malade: "Il est malade", mort: "R.I.P.",
     },
     moods: {
@@ -36,13 +37,13 @@ const I18N = {
       content: "Content", heureux: "Heureux",
     },
     stages: { oeuf: "œuf", cabane: "cabane", maisonnette: "maisonnette", maison: "maison", villa: "villa", mort: "ruine" },
-    actions: { nourrir: "Nourrir", jouer: "Jouer", nettoyer: "Nettoyer", soigner: "Soigner" },
+    actions: { nourrir: "Nourrir", jouer: "Jouer", nettoyer: "Nettoyer", soigner: "Soigner", sieste: "Sieste" },
     gauges: { satiete: "Satiété", bonheur: "Bonheur", energie: "Énergie", sante: "Santé", proprete: "Propreté" },
     ctx: {
       mood: "Humeur :", stage: "stade :", generation: "génération", cold: "il a froid", hot: "il a chaud",
       alone: "personne à la maison", stressed: "consommation élevée", good: "beau temps", bad: "mauvais temps",
     },
-    egg: "œuf", hatchIn: (m) => `Éclosion dans ${m} min`, hatchSoon: "Éclosion imminente", hours: "h", days: "j", rip: "R.I.P.",
+    egg: "œuf", hatchIn: (m) => `Éclosion dans ${m} min`, hatchSoon: "Éclosion imminente", napLeft: (m) => `Sieste · ${m} min`, hours: "h", days: "j", rip: "R.I.P.",
     reset: "Nouvel œuf", resetConfirm: "Remplacer la créature par un nouvel œuf ?",
     notFound: "Entité introuvable :",
   },
@@ -50,7 +51,7 @@ const I18N = {
     messages: {
       nourri: "Yum!", trop_mange: "Too full…", joue: "Yay!", nettoye: "All clean", nettoye_auto: "The robot cleaned!",
       soigne: "Feeling better", refus_dort: "Shh, sleeping", refus_oeuf: "Patience…", refus_mort: "…",
-      refus_fatigue: "Too tired", refus_pas_malade: "Not sick", eclosion: "Hatched!",
+      refus_fatigue: "Too tired", refus_pas_malade: "Not sick", sieste: "Nap time…", refus_pas_fatigue: "Not tired", eclosion: "Hatched!",
       nouvel_oeuf: "A new egg", endormi: "Good night", reveil: "Good morning!", malade: "It is sick", mort: "R.I.P.",
     },
     moods: {
@@ -59,13 +60,13 @@ const I18N = {
       content: "Content", heureux: "Happy",
     },
     stages: { oeuf: "egg", cabane: "hut", maisonnette: "cottage", maison: "house", villa: "villa", mort: "ruin" },
-    actions: { nourrir: "Feed", jouer: "Play", nettoyer: "Clean", soigner: "Heal" },
+    actions: { nourrir: "Feed", jouer: "Play", nettoyer: "Clean", soigner: "Heal", sieste: "Nap" },
     gauges: { satiete: "Satiety", bonheur: "Happiness", energie: "Energy", sante: "Health", proprete: "Cleanliness" },
     ctx: {
       mood: "Mood:", stage: "stage:", generation: "generation", cold: "feeling cold", hot: "feeling hot",
       alone: "nobody home", stressed: "high consumption", good: "nice weather", bad: "bad weather",
     },
-    egg: "egg", hatchIn: (m) => `Hatching in ${m} min`, hatchSoon: "Hatching soon", hours: "h", days: "d", rip: "R.I.P.",
+    egg: "egg", hatchIn: (m) => `Hatching in ${m} min`, hatchSoon: "Hatching soon", napLeft: (m) => `Nap · ${m} min`, hours: "h", days: "d", rip: "R.I.P.",
     reset: "New egg", resetConfirm: "Replace the creature with a new egg?",
     notFound: "Entity not found:",
   },
@@ -309,18 +310,18 @@ class DomogotchiCard extends HTMLElement {
           background:var(--secondary-background-color); border:1px solid var(--divider-color); }
         .brand { position:absolute; left:0; right:0; top:46px; text-align:center; font-size:12px;
           letter-spacing:2px; color:var(--secondary-text-color); text-transform:lowercase; }
-        .body { width:226px; box-sizing:border-box; background:var(--secondary-background-color);
+        .body { width:246px; box-sizing:border-box; background:var(--secondary-background-color);
           border:1px solid var(--divider-color); border-top:none; border-radius:0 0 16px 16px;
-          padding:12px 16px 16px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+          padding:12px 8px 16px; display:flex; flex-direction:column; align-items:center; gap:10px; }
         .lcd { background:${LCD_BG}; border:3px solid #444441; border-radius:8px; padding:8px; color:${LCD_ON}; }
         .icons { display:flex; justify-content:space-between; }
         .icons ha-icon { --mdc-icon-size:16px; opacity:.18; transition:opacity .2s; }
         .icons ha-icon.on { opacity:1; }
         canvas { display:block; image-rendering:pixelated; margin:4px 0; }
         .msg { text-align:center; font-family:monospace; font-size:13px; height:18px; overflow:hidden; white-space:nowrap; }
-        .btns { display:flex; gap:10px; }
-        .btn { display:flex; flex-direction:column; align-items:center; gap:4px; }
-        button { width:42px; height:42px; border-radius:50%; border:1px solid var(--divider-color);
+        .btns { display:flex; gap:2px; }
+        .btn { display:flex; flex-direction:column; align-items:center; gap:4px; width:44px; }
+        button { width:40px; height:40px; border-radius:50%; border:1px solid var(--divider-color);
           background:var(--card-background-color); color:var(--primary-text-color); font-weight:500; cursor:pointer; }
         button:active { transform:scale(.94); }
         .btn span { font-size:11px; color:var(--secondary-text-color); }
@@ -486,6 +487,10 @@ class DomogotchiCard extends HTMLElement {
       const at = Date.parse(a.eclosion_le || "");
       const left = Number.isFinite(at) ? Math.ceil((at - Date.now()) / 60000) : NaN;
       text = Number.isFinite(left) ? (left >= 1 ? t.hatchIn(left) : t.hatchSoon) : `${a.nom} · ${t.egg}`;
+    }
+    else if (a.fin_sieste && Number.isFinite(Date.parse(a.fin_sieste))) {
+      const left = Math.max(1, Math.ceil((Date.parse(a.fin_sieste) - Date.now()) / 60000));
+      text = t.napLeft(left);
     }
     else {
       const h = a.age_heures || 0;

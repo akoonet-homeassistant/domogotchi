@@ -139,6 +139,9 @@
       },
       "soigner": {
         "name": "Soigner"
+      },
+      "sieste": {
+        "name": "Sieste"
       }
     }
   },

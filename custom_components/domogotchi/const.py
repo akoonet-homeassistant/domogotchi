@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 DOMAIN = "domogotchi"
-VERSION = "2026.11.6"
+VERSION = "2026.11.7"
 
 CONF_NAME = "name"
 CONF_LIGHTS = "lights"
@@ -12,6 +12,7 @@ CONF_PRESENCE = "presence"
 CONF_POWER = "power_sensor"
 CONF_POWER_THRESHOLD = "power_threshold"
 CONF_WEATHER = "weather"
+CONF_VACUUMS = "vacuums"
 CONF_COMFORT_MIN = "comfort_min"
 CONF_COMFORT_MAX = "comfort_max"
 

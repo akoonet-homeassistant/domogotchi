@@ -17,6 +17,9 @@ HUNGER_RATE_AWAKE = 100 / (20 * 60)  # ~3 repas par jour
 HUNGER_RATE_ASLEEP = HUNGER_RATE_AWAKE / 2
 ENERGY_DRAIN = 100 / (16 * 60)  # 16 h d'éveil vident la batterie
 ENERGY_RECOVERY = 100 / (7 * 60)  # 7 h de sommeil la remplissent
+NAP_MINUTES = 60  # durée d'une sieste
+NAP_RECOVERY = 100 / (2 * 60)  # une sieste d'une heure rend la moitié de l'énergie
+NAP_MAX_ENERGY = 90  # au-dessus, il n'a pas sommeil
 HAPPINESS_DRAIN = 100 / (24 * 60)  # ~2 parties de jeu par jour
 HAPPINESS_DRAIN_ASLEEP = HAPPINESS_DRAIN / 4
 CLEANLINESS_DRAIN = 100 / (30 * 60)  # un ménage par jour suffit
@@ -115,6 +118,7 @@ class PetState:
     sick: bool = False
     alive: bool = True
     asleep: bool = False
+    nap_left: float = 0.0  # minutes de sieste restantes
     generation: int = 1
     last_event: str = "eclosion"
     last_event_at: str = field(default_factory=lambda: datetime.now().isoformat())
@@ -199,6 +203,11 @@ def tick(state: PetState, minutes: float, ctx: Context, now: datetime | None = N
     if not state.alive or minutes <= 0:
         return state
     minutes = min(minutes, MAX_CATCH_UP_MINUTES)
+    if 0 < state.nap_left < minutes:
+        # La sieste se termine au milieu de l'intervalle : on le découpe.
+        first = state.nap_left
+        tick(state, first, ctx, now)
+        return tick(state, minutes - first, ctx, now)
 
     was_egg = state.is_egg
     state.age_minutes += minutes
@@ -215,7 +224,8 @@ def tick(state: PetState, minutes: float, ctx: Context, now: datetime | None = N
             _event(state, "eclosion", now)
         return state
 
-    asleep = ctx.asleep
+    napping = state.nap_left > 0
+    asleep = ctx.asleep or napping
     if asleep != state.asleep:
         state.asleep = asleep
         _event(state, "endormi" if asleep else "reveil", now)
@@ -223,7 +233,7 @@ def tick(state: PetState, minutes: float, ctx: Context, now: datetime | None = N
     m = minutes
     if asleep:
         state.satiety -= HUNGER_RATE_ASLEEP * m
-        state.energy += ENERGY_RECOVERY * m
+        state.energy += (max(ENERGY_RECOVERY, NAP_RECOVERY) if napping else ENERGY_RECOVERY) * m
         state.happiness -= HAPPINESS_DRAIN_ASLEEP * m
     else:
         state.satiety -= HUNGER_RATE_AWAKE * m
@@ -240,6 +250,8 @@ def tick(state: PetState, minutes: float, ctx: Context, now: datetime | None = N
     if ctx.cold or ctx.hot:
         state.happiness -= DISCOMFORT_DRAIN * m
     state.cleanliness -= CLEANLINESS_DRAIN * m
+    if napping:
+        state.nap_left = max(0.0, state.nap_left - m)
 
     # Santé : chaque facteur de négligence actif la fait baisser.
     neglect = 0
@@ -316,6 +328,20 @@ def clean(state: PetState, now: datetime | None = None) -> PetState:
         return state
     state.cleanliness = 100.0
     _event(state, "nettoye", now)
+    return state
+
+
+def nap(state: PetState, now: datetime | None = None) -> PetState:
+    """Petite sieste d'une heure pour recharger l'énergie en journée."""
+    now = now or datetime.now()
+    if not _can_act(state, now):
+        return state
+    if state.energy > NAP_MAX_ENERGY:
+        _event(state, "refus_pas_fatigue", now)
+        return state
+    state.nap_left = float(NAP_MINUTES)
+    state.asleep = True
+    _event(state, "sieste", now)
     return state
 
 

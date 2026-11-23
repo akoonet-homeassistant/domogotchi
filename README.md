@@ -14,7 +14,7 @@ Une créature-maison façon Tamagotchi qui vit dans Home Assistant. Elle a faim,
 
 - Cycle de vie complet : œuf → cabane → maisonnette → maison → villa, puis ruine si elle est négligée trop longtemps.
 - Cinq jauges : satiété, bonheur, énergie, santé, propreté.
-- Quatre actions : nourrir, jouer, nettoyer, soigner (avec refus quand elle dort, qu'elle est trop fatiguée ou déjà rassasiée).
+- Cinq actions : nourrir, jouer, nettoyer, soigner et faire une sieste (avec refus quand elle dort, qu'elle est trop fatiguée ou déjà rassasiée).
 - Liens facultatifs avec la maison réelle, réglables à tout moment dans les options.
 - Carte Lovelace `domogotchi-card` intégrée, en français ou en anglais selon la langue de Home Assistant : écran LCD rétro, maison en pixel art dont les fenêtres sont les yeux, cheminée qui fume, neige sur le toit quand il fait froid, volets croisés quand elle est malade, fenêtres éteintes quand elle dort.
 - État conservé entre les redémarrages (rattrapage plafonné à 12 h pour qu'un arrêt de Home Assistant ne la tue pas).
@@ -94,6 +94,7 @@ Les identifiants dépendent du nom choisi et de la langue de Home Assistant ; ex
 | `button.domo_jouer` | bouton | +30 bonheur, −10 énergie ; refusé si elle dort, est malade ou épuisée |
 | `button.domo_nettoyer` | bouton | Propreté à 100 % |
 | `button.domo_soigner` | bouton | +30 santé, guérit la maladie |
+| `button.domo_sieste` | bouton | Sieste d'une heure en journée : elle dort et récupère son énergie bien plus vite que la nuit (+50 % en une heure, contre environ +14 % la nuit) ; refusée si l'énergie dépasse 90 %. L'écran affiche le temps restant |
 
 ### Service
 
@@ -135,7 +136,7 @@ A Tamagotchi-style house creature living in Home Assistant. It gets hungry, bore
 
 - Full life cycle: egg → hut → cottage → house → villa, then a ruin if neglected for too long.
 - Five gauges: satiety, happiness, energy, health, cleanliness.
-- Four actions: feed, play, clean, heal (refused while asleep, exhausted or already full).
+- Five actions: feed, play, clean, heal and nap (refused while asleep, exhausted or already full).
 - Optional links with the real home, editable anytime in the options.
 - Built-in `domogotchi-card` Lovelace card, in English or French following the Home Assistant language: retro LCD screen, pixel-art house whose windows are its eyes, smoking chimney, snow on the roof when cold, crossed shutters when sick, dark windows when asleep.
 - State kept across restarts (catch-up capped at 12 h so a Home Assistant outage does not kill it).
@@ -213,6 +214,7 @@ Entity IDs depend on the creature name and your Home Assistant language; example
 | `button.domo_play` | button | +30 happiness, −10 energy; refused when asleep, sick or exhausted |
 | `button.domo_clean` | button | Cleanliness back to 100 % |
 | `button.domo_heal` | button | +30 health, cures sickness |
+| `button.domo_nap` | button | One-hour daytime nap: it sleeps and recovers energy much faster than at night (+50 % in one hour, versus about +14 % at night); refused above 90 % energy. The screen shows the time left |
 
 **Service** `domogotchi.reset`: replaces the creature with a new egg (next generation). Without `config_entry_id`, applies to all creatures.
 

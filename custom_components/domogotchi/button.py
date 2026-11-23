@@ -23,6 +23,7 @@ BUTTONS = (
     DomogotchiButtonDescription(key="jouer", icon="mdi:soccer", action=engine.play),
     DomogotchiButtonDescription(key="nettoyer", icon="mdi:broom", action=engine.clean),
     DomogotchiButtonDescription(key="soigner", icon="mdi:medical-bag", action=engine.heal),
+    DomogotchiButtonDescription(key="sieste", icon="mdi:power-sleep", action=engine.nap),
 )
 
 

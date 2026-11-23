@@ -120,9 +120,13 @@ class DomogotchiSensor(DomogotchiEntity, SensorEntity):
         hatch_at = None
         if pet.alive and pet.is_egg:
             hatch_at = (dt_util.now() + timedelta(minutes=pet.minutes_to_hatch)).isoformat()
+        nap_end = None
+        if pet.alive and pet.nap_left > 0:
+            nap_end = (dt_util.now() + timedelta(minutes=pet.nap_left)).isoformat()
         return {
             "nom": self.coordinator.config_entry.title,
             "eclosion_le": hatch_at,
+            "fin_sieste": nap_end,
             "config_entry_id": entry_id,
             "stade": pet.stage,
             "age_heures": round(pet.age_hours, 1),

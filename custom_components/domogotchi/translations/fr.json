@@ -13,14 +13,16 @@
           "presence": "Présence (solitude)",
           "power_sensor": "Capteur de puissance (stress)",
           "power_threshold": "Seuil de stress",
-          "weather": "Météo (humeur)"
+          "weather": "Météo (humeur)",
+          "vacuums": "Aspirateur robot (ménage)"
         },
         "data_description": {
           "lights": "Il dort quand toutes ces lumières sont éteintes. Sans lumière choisie, il dort de 22 h à 7 h.",
           "temperature_sensor": "Il a froid ou chaud hors de la plage de confort.",
           "presence": "Il s'ennuie quand personne n'est à la maison (personne, traqueur, capteur binaire ou zone).",
           "power_sensor": "Il stresse quand la consommation dépasse le seuil.",
-          "weather": "Le soleil le réjouit, la pluie le déprime."
+          "weather": "Le soleil le réjouit, la pluie le déprime.",
+          "vacuums": "Chaque fois qu'un de ces robots démarre un nettoyage (ou que l'entité passe à « on »), la maison est nettoyée automatiquement."
         }
       }
     },
@@ -40,14 +42,16 @@
           "presence": "Présence (solitude)",
           "power_sensor": "Capteur de puissance (stress)",
           "power_threshold": "Seuil de stress",
-          "weather": "Météo (humeur)"
+          "weather": "Météo (humeur)",
+          "vacuums": "Aspirateur robot (ménage)"
         },
         "data_description": {
           "lights": "Il dort quand toutes ces lumières sont éteintes. Sans lumière choisie, il dort de 22 h à 7 h.",
           "temperature_sensor": "Il a froid ou chaud hors de la plage de confort.",
           "presence": "Il s'ennuie quand personne n'est à la maison (personne, traqueur, capteur binaire ou zone).",
           "power_sensor": "Il stresse quand la consommation dépasse le seuil.",
-          "weather": "Le soleil le réjouit, la pluie le déprime."
+          "weather": "Le soleil le réjouit, la pluie le déprime.",
+          "vacuums": "Chaque fois qu'un de ces robots démarre un nettoyage (ou que l'entité passe à « on »), la maison est nettoyée automatiquement."
         }
       }
     },

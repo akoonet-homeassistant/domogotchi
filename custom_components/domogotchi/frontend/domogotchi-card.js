@@ -1,5 +1,5 @@
 /* Domogotchi card — carte Lovelace de la créature-maison (FR / EN). */
-const DOMOGOTCHI_VERSION = "2026.11.6";
+const DOMOGOTCHI_VERSION = "2026.11.7";
 
 const W = 32;
 const H = 24;
@@ -25,7 +25,7 @@ const ACTIONS = [
 const I18N = {
   fr: {
     messages: {
-      nourri: "Miam !", trop_mange: "Trop mangé…", joue: "Youpi !", nettoye: "Tout propre",
+      nourri: "Miam !", trop_mange: "Trop mangé…", joue: "Youpi !", nettoye: "Tout propre", nettoye_auto: "Le robot est passé !",
       soigne: "Ça va mieux", refus_dort: "Chut, il dort", refus_oeuf: "Patience…", refus_mort: "…",
       refus_fatigue: "Trop fatigué", refus_pas_malade: "Pas malade", eclosion: "Éclosion !",
       nouvel_oeuf: "Un nouvel œuf", endormi: "Bonne nuit", reveil: "Bonjour !", malade: "Il est malade", mort: "R.I.P.",
@@ -48,7 +48,7 @@ const I18N = {
   },
   en: {
     messages: {
-      nourri: "Yum!", trop_mange: "Too full…", joue: "Yay!", nettoye: "All clean",
+      nourri: "Yum!", trop_mange: "Too full…", joue: "Yay!", nettoye: "All clean", nettoye_auto: "The robot cleaned!",
       soigne: "Feeling better", refus_dort: "Shh, sleeping", refus_oeuf: "Patience…", refus_mort: "…",
       refus_fatigue: "Too tired", refus_pas_malade: "Not sick", eclosion: "Hatched!",
       nouvel_oeuf: "A new egg", endormi: "Good night", reveil: "Good morning!", malade: "It is sick", mort: "R.I.P.",

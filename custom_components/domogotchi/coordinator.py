@@ -23,6 +23,7 @@ from .const import (
     CONF_POWER_THRESHOLD,
     CONF_PRESENCE,
     CONF_TEMPERATURE,
+    CONF_VACUUMS,
     CONF_WEATHER,
     DEFAULT_COMFORT_MAX,
     DEFAULT_COMFORT_MIN,
@@ -33,6 +34,8 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 _INVALID = (STATE_UNAVAILABLE, STATE_UNKNOWN, None, "")
+# « cleaning » pour un aspirateur, « on » pour un capteur, un interrupteur ou une entrée booléenne.
+VACUUM_ACTIVE = ("cleaning", "on")
 
 
 class DomogotchiCoordinator(DataUpdateCoordinator[engine.PetState]):
@@ -165,6 +168,27 @@ class DomogotchiCoordinator(DataUpdateCoordinator[engine.PetState]):
         @callback
         def _changed(event: Event[EventStateChangedData]) -> None:
             self.hass.async_create_task(self.async_request_refresh())
+
+        return async_track_state_change_event(self.hass, watched, _changed)
+
+    @callback
+    def async_watch_vacuums(self) -> Callable[[], None]:
+        """Nettoie la maison quand un aspirateur robot démarre un nettoyage."""
+        watched = list(self._opt(CONF_VACUUMS, []) or [])
+        if not watched:
+            return lambda: None
+
+        @callback
+        def _changed(event: Event[EventStateChangedData]) -> None:
+            new = event.data["new_state"]
+            old = event.data["old_state"]
+            if new is None or new.state not in VACUUM_ACTIVE:
+                return
+            if old is not None and old.state in VACUUM_ACTIVE:
+                return  # déjà en cours : on ne nettoie qu'au démarrage
+            if old is None or old.state in _INVALID:
+                return  # retour d'indisponibilité ou démarrage de HA, pas un vrai départ
+            self.hass.async_create_task(self.async_do(engine.auto_clean))
 
         return async_track_state_change_event(self.hass, watched, _changed)
 

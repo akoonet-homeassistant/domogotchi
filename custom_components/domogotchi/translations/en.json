@@ -13,14 +13,16 @@
           "presence": "Presence (loneliness)",
           "power_sensor": "Power sensor (stress)",
           "power_threshold": "Stress threshold",
-          "weather": "Weather (mood)"
+          "weather": "Weather (mood)",
+          "vacuums": "Robot vacuum (cleaning)"
         },
         "data_description": {
           "lights": "Sleeps when all these lights are off. Without lights, sleeps from 22:00 to 07:00.",
           "temperature_sensor": "Feels cold or hot outside the comfort range.",
           "presence": "Gets lonely when nobody is home (person, tracker, binary sensor or zone).",
           "power_sensor": "Gets stressed when consumption exceeds the threshold.",
-          "weather": "Sunshine cheers it up, rain gets it down."
+          "weather": "Sunshine cheers it up, rain gets it down.",
+          "vacuums": "Each time one of these robots starts cleaning (or the entity turns on), the house is automatically cleaned."
         }
       }
     },
@@ -40,14 +42,16 @@
           "presence": "Presence (loneliness)",
           "power_sensor": "Power sensor (stress)",
           "power_threshold": "Stress threshold",
-          "weather": "Weather (mood)"
+          "weather": "Weather (mood)",
+          "vacuums": "Robot vacuum (cleaning)"
         },
         "data_description": {
           "lights": "Sleeps when all these lights are off. Without lights, sleeps from 22:00 to 07:00.",
           "temperature_sensor": "Feels cold or hot outside the comfort range.",
           "presence": "Gets lonely when nobody is home (person, tracker, binary sensor or zone).",
           "power_sensor": "Gets stressed when consumption exceeds the threshold.",
-          "weather": "Sunshine cheers it up, rain gets it down."
+          "weather": "Sunshine cheers it up, rain gets it down.",
+          "vacuums": "Each time one of these robots starts cleaning (or the entity turns on), the house is automatically cleaned."
         }
       }
     },

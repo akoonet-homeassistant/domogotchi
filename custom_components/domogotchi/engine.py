@@ -319,6 +319,16 @@ def clean(state: PetState, now: datetime | None = None) -> PetState:
     return state
 
 
+def auto_clean(state: PetState, now: datetime | None = None) -> PetState:
+    """Ménage fait par l'aspirateur robot : ignoré en silence pour un œuf ou une ruine."""
+    now = now or datetime.now()
+    if not state.alive or state.is_egg:
+        return state
+    state.cleanliness = 100.0
+    _event(state, "nettoye_auto", now)
+    return state
+
+
 def heal(state: PetState, now: datetime | None = None) -> PetState:
     now = now or datetime.now()
     if not _can_act(state, now, allow_asleep=True):

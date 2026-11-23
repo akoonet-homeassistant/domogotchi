@@ -53,6 +53,7 @@ Copie `custom_components/domogotchi` dans le dossier `config/custom_components/`
 | Présence | Elle s'ennuie quand personne n'est là (`person`, `device_tracker`, `binary_sensor`, `input_boolean` ou `zone`) |
 | Capteur de puissance + seuil | Elle stresse au-dessus du seuil (3 000 W par défaut, les kW sont convertis) |
 | Météo | Le soleil la réjouit, la pluie, la neige ou l'orage la dépriment |
+| Aspirateur robot | Quand un robot démarre un nettoyage (`vacuum` en « cleaning »), la maison est nettoyée automatiquement et l'écran affiche « Le robot est passé ! ». Un capteur binaire, un interrupteur ou une entrée booléenne qui passe à « on » fonctionne aussi |
 
 Tous les liens sont facultatifs. On peut créer plusieurs créatures.
 
@@ -173,6 +174,7 @@ Copy `custom_components/domogotchi` into `config/custom_components/` and restart
 | Presence | Lonely when nobody is home (`person`, `device_tracker`, `binary_sensor`, `input_boolean` or `zone`) |
 | Power sensor + threshold | Stressed above the threshold (3,000 W default, kW converted) |
 | Weather | Sunshine cheers it up; rain, snow or storms bring it down |
+| Robot vacuum | When a robot starts cleaning (`vacuum` in "cleaning"), the house is cleaned automatically and the screen shows "The robot cleaned!". A binary sensor, switch or input boolean turning "on" works too |
 
 All links are optional. Several creatures can be created.
 

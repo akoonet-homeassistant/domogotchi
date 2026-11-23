@@ -20,6 +20,7 @@ from .const import (
     CONF_POWER_THRESHOLD,
     CONF_PRESENCE,
     CONF_TEMPERATURE,
+    CONF_VACUUMS,
     CONF_WEATHER,
     DEFAULT_COMFORT_MAX,
     DEFAULT_COMFORT_MIN,
@@ -68,6 +69,11 @@ def _house_schema(current: dict[str, Any]) -> dict:
         ),
         vol.Optional(CONF_WEATHER, description=sv(CONF_WEATHER)): selector.EntitySelector(
             selector.EntitySelectorConfig(domain="weather")
+        ),
+        vol.Optional(CONF_VACUUMS, description=sv(CONF_VACUUMS)): selector.EntitySelector(
+            selector.EntitySelectorConfig(
+                domain=["vacuum", "binary_sensor", "input_boolean", "switch"], multiple=True
+            )
         ),
     }
 
